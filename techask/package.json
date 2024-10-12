@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@nextui-org/button": "2.0.38",
     "@nextui-org/code": "2.0.33",
     "@nextui-org/input": "2.2.5",
@@ -21,13 +22,19 @@
     "@nextui-org/system": "2.2.6",
     "@nextui-org/theme": "2.2.11",
     "@react-aria/visually-hidden": "3.8.12",
+    "@react-three/drei": "^9.114.3",
+    "@react-three/fiber": "^8.17.10",
+    "axios": "^1.7.7",
     "clsx": "2.1.1",
+    "drei": "^2.2.21",
+    "firebase": "^10.14.1",
     "framer-motion": "~11.1.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.23.0",
     "tailwind-variants": "0.1.20",
-    "tailwindcss": "3.4.3"
+    "tailwindcss": "3.4.3",
+    "three": "^0.169.0"
   },
   "devDependencies": {
     "@types/react": "18.3.3",
