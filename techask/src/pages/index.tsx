@@ -29,7 +29,7 @@ export default function IndexPage() {
   const [selectedGodown, setSelectedGodown] = useState<Godown | null>(null);
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false); // New state for sidebar visibility
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const fetchGodownDetails = async (godown: Godown) => {
     try {
@@ -67,10 +67,15 @@ export default function IndexPage() {
       <div className="flex h-screen overflow-hidden">
         {/* Mobile Sidebar Toggle Button */}
         <button
-          className="md:hidden text-white bg-blue-500 rounded m-3.5"
+          className="md:hidden text-white bg-blue-500 rounded m-3.5 p-2"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          
+          {/* Add an icon or text to make the button visible */}
+          {isSidebarOpen ? (
+            <i className="fas fa-times"></i> // X icon when sidebar is open
+          ) : (
+            <i className="fas fa-bars"></i> // Hamburger icon when sidebar is closed
+          )}
         </button>
 
         <Sidebar setSelectedGodown={fetchGodownDetails} isOpen={isSidebarOpen} />
