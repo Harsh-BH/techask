@@ -16,15 +16,20 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-
-  GithubIcon,
- 
-  SearchIcon,
-} from "@/components/icons";
+import { GithubIcon, SearchIcon } from "@/components/icons";
 import { Logo } from "@/components/icons";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useFirebaseAuth } from "@/hooks/useFirebaseAuth"; // Custom hook for auth
 
 export const Navbar = () => {
+  const { user, logout } = useFirebaseAuth(); // Hook for user and logout function
+  const navigate = useNavigate(); // Hook for navigating between routes
+
+  const handleLogout = () => {
+    logout(); // Call the logout function from the auth hook
+    navigate("/login"); // Redirect to the login page after logout
+  };
+
   const searchInput = (
     <Input
       aria-label="Search"
@@ -65,7 +70,7 @@ export const Navbar = () => {
               <Link
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
                 )}
                 color="foreground"
                 href={item.href}
@@ -82,14 +87,22 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-        
           <Link isExternal href={siteConfig.links.github} title="GitHub">
             <GithubIcon className="text-default-500" />
           </Link>
           <ThemeSwitch />
         </NavbarItem>
+
+        {/* Show logout button if user is logged in */}
+        {user && (
+          <NavbarItem>
+            <Button color="danger" onPress={handleLogout}>
+              Logout
+            </Button>
+          </NavbarItem>
+        )}
+
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
@@ -110,8 +123,8 @@ export const Navbar = () => {
                   index === 2
                     ? "primary"
                     : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
+                    ? "danger"
+                    : "foreground"
                 }
                 href="#"
                 size="lg"

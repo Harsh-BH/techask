@@ -7,12 +7,12 @@ import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 
 function Login() {
   const [showLoader, setShowLoader] = useState(false);
-  const { login, loginWithGoogle } = useFirebaseAuth(); // Added loginWithGoogle
+  const { login, loginWithGoogle } = useFirebaseAuth(); // Get login functions
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleMouseMove = (event) => {
@@ -34,26 +34,30 @@ function Login() {
     e.preventDefault();
     setShowLoader(true);
     try {
-      await login(email, password); // Call Firebase login
-      setShowLoader(false);
-      navigate("/"); // Navigate to home page after successful login
+        await login(email, password); // Call Firebase login
+        setShowLoader(false);
+        console.log("User after login:", user); // Log user state
+        navigate("/"); // Navigate to home page after successful login
     } catch (error) {
-      setShowLoader(false);
-      setError("Failed to log in. Please check your credentials.");
+        setShowLoader(false);
+        setError("Failed to log in. Please check your credentials."); // Handle error
     }
-  };
+};
 
-  const handleGoogleLogin = async () => {
+const handleGoogleLogin = async () => {
     setShowLoader(true);
     try {
-      await loginWithGoogle(); // Google login
-      setShowLoader(false);
-      navigate("/"); // Navigate to home page after successful login
+        await loginWithGoogle(); // Attempt Google login
+        setShowLoader(false);
+        console.log("User after Google login:", user); // Log user state
+        navigate("/"); // Navigate to home page after successful login
     } catch (error) {
-      setShowLoader(false);
-      setError("Failed to sign in with Google.");
+        setShowLoader(false);
+        setError("Failed to sign in with Google."); // Handle error
     }
-  };
+};
+
+
 
   return (
     <div
