@@ -78,7 +78,7 @@ export default function IndexPage() {
           )}
         </button>
 
-        <Sidebar setSelectedGodown={fetchGodownDetails} isOpen={isSidebarOpen} />
+        <Sidebar setSelectedGodown={fetchGodownDetails}  />
 
         <div className="flex-1 flex flex-col p-4">
           {selectedGodown ? (

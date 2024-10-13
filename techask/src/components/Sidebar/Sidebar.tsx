@@ -29,9 +29,10 @@ interface Godown {
 // Define props for Sidebar component
 interface SidebarProps {
   setSelectedGodown: (godown: Godown) => void; // Function to set selected godown
+
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ setSelectedGodown }) => {
+const Sidebar: React.FC<SidebarProps> = ({ setSelectedGodown  }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false); // Sidebar state
   const [godowns, setGodowns] = useState<Godown[]>([]); // State for godown data
   const [expanded, setExpanded] = useState<Record<string, boolean>>({}); // State to track expanded godowns
