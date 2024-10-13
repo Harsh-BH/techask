@@ -5,10 +5,9 @@ from typing import List, Dict
 
 app = FastAPI()
 
-# CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Adjust this as needed
+    allow_origins=["http://localhost:5174"],  # Ensure this matches your frontend URL
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers

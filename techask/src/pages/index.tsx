@@ -1,40 +1,47 @@
-// src/pages/index.js
-import React, { useState } from "react"; // Import useState
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
-import { button as buttonStyles } from "@nextui-org/theme";
-
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
-import DefaultLayout from "@/layouts/default";
+import  { useState } from "react"; // Import useState and useEffect
+import { Navbar } from "@/components/navbar"; // Import Navbar
 import Sidebar from "@/components/Sidebar/Sidebar"; // Import the Sidebar component
-import { Link } from "react-router-dom";
-import { Navbar } from "@/components/navbar";
+
+// Define types for Item and Godown
+interface Item {
+  item_id: string;
+  name: string;
+  quantity: number;
+  category: string;
+  price: number;
+  status: string;
+  brand: string;
+  image_url: string;
+  attributes: {
+    type: string;
+    material: string;
+    warranty_years: number;
+  };
+}
+
+// Ensure Godown includes items and correctly typed parent_godown
+interface Godown {
+  id: string;
+  name: string;
+  parent_godown?: string | null; // parent_godown can be a string or null
+  items: Item[]; // Ensure items property is included
+}
 
 export default function IndexPage() {
-  const [testData, setTestData] = useState(null); // State to hold test data
-  const [loading, setLoading] = useState(false); // State to manage loading
-  const [selectedGodown, setSelectedGodown] = useState(null); // State to hold selected godown details
-  const [expandedItemId, setExpandedItemId] = useState(null); // State to manage expanded item details
+  const [selectedGodown, setSelectedGodown] = useState<Godown | null>(null); // State to hold selected godown details
+  const [expandedItemId, setExpandedItemId] = useState<string | null>(null); // State to manage expanded item details
+  const [searchQuery, setSearchQuery] = useState<string>(""); // State to manage universal search query
 
-  const handleTestDatabase = async () => {
-    setLoading(true);
-    try {
-      const data = await getTestData(); // Call the API function
-      setTestData(data); // Set the response data
-    } catch (error) {
-      console.error("Error testing database:", error);
-      setTestData(null); // Reset test data on error
-    } finally {
-      setLoading(false); // Reset loading state
-    }
-  };
-
-  const fetchGodownDetails = async (godown) => {
+  const fetchGodownDetails = async (godown: Godown) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/godown/${godown.id}`);
-      const data = await response.json();
+      const data: Godown = await response.json();
+
+      // Ensure items property exists
+      if (!data.items) {
+        data.items = [];
+      }
+      console.log(data)
       setSelectedGodown(data); // Set the fetched godown and items details
       setExpandedItemId(null); // Reset the expanded item id when selecting a new godown
     } catch (error) {
@@ -42,37 +49,56 @@ export default function IndexPage() {
     }
   };
 
-  const toggleItemDetails = (itemId) => {
+  console.log(selectedGodown)
+
+  const toggleItemDetails = (itemId: string) => {
     setExpandedItemId((prev) => (prev === itemId ? null : itemId)); // Toggle the expanded item ID
+  };
+
+  // Universal filter logic: Filter items based on name, category, status, or brand
+  const getFilteredItems = (): Item[] => {
+    if (!selectedGodown || !selectedGodown.items) return []; // Return empty array if no godown or items
+
+    return selectedGodown.items.filter((item) => {
+      return (
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.brand.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
   };
 
   return (
     <>
       <Navbar />
       <div className="flex h-screen overflow-hidden">
-        
-        <Sidebar setSelectedGodown={fetchGodownDetails} />
+        <Sidebar setSelectedGodown={fetchGodownDetails} /> {/* Sidebar for selecting godown */}
 
         {/* Main content area */}
         <div className="flex-1 flex flex-col p-4">
           {selectedGodown ? (
             <>
-              {/* Godown Details */}
-              <div className="shadow-lg rounded-2xl p-6 overflow-auto flex-grow mb-4">
-                <h2 className="text-2xl font-bold mb-2 text-center">
-                  {selectedGodown.godown.name}
-                </h2>
-                <p className="mb-2 text-center">ID: {selectedGodown.godown.id}</p>
-                {selectedGodown.godown.parent_godown && (
-                  <p className="mb-4 text-center">Parent ID: {selectedGodown.godown.parent_godown}</p>
-                )}
+            
+
+                {/* Universal Filter */}
+                <div className="mb-4 text-center">
+                  <label className="font-semibold mr-2">Search Items:</label>
+                  <input
+                    type="text"
+                    placeholder="Search by name, category, status, or brand..."
+                    className="border p-2 rounded-lg"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
 
                 {/* Items List */}
-                <div className="rounded-2xl shadow-md p-6 overflow-y-auto max-h-[70vh] scrollbar-hide ml-8 ">
+                <div className="rounded-2xl shadow-md p-6 overflow-y-auto max-h-[70vh] scrollbar-hide ml-8">
                   <h3 className="text-xl font-semibold mb-4">Items:</h3>
-                  {selectedGodown.items.length > 0 ? (
+                  {getFilteredItems().length > 0 ? (
                     <ul className="space-y-4">
-                      {selectedGodown.items.map((item) => (
+                      {getFilteredItems().map((item) => (
                         <li
                           key={item.item_id}
                           className="cursor-pointer p-3 hover:bg-gray-200 rounded-lg transition duration-300"
@@ -83,7 +109,9 @@ export default function IndexPage() {
                           >
                             <span>{item.name}</span>
                             <i
-                              className={`fas ${expandedItemId === item.item_id ? "fa-chevron-up" : "fa-chevron-down"}`}
+                              className={`fas ${
+                                expandedItemId === item.item_id ? "fa-chevron-up" : "fa-chevron-down"
+                              }`}
                             ></i>
                           </div>
 
@@ -112,7 +140,9 @@ export default function IndexPage() {
                                 <ul>
                                   <li>Type: {item.attributes.type}</li>
                                   <li>Material: {item.attributes.material}</li>
-                                  <li>Warranty (years): {item.attributes.warranty_years}</li>
+                                  <li>
+                                    Warranty (years): {item.attributes.warranty_years}
+                                  </li>
                                 </ul>
                               </div>
                             )}
@@ -121,10 +151,10 @@ export default function IndexPage() {
                       ))}
                     </ul>
                   ) : (
-                    <p>No items found for this godown.</p>
+                    <p>No items found matching your search criteria.</p>
                   )}
                 </div>
-              </div>
+              
             </>
           ) : (
             // Message prompting to select a godown
