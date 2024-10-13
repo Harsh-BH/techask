@@ -57,7 +57,7 @@ const handleGoogleLogin = async () => {
     }
 };
 
-
+const animations = ["Animation"];
 
   return (
     <div
@@ -77,7 +77,7 @@ const handleGoogleLogin = async () => {
 
       {/* Top logo and title */}
       <div className="absolute top-10 flex gap-[30px] items-center">
-        <div className="text-5xl font-bold">ScanX</div>
+        <div className="text-5xl font-bold">SANT</div>
       </div>
 
       {/* Flex Container to hold 3D model and Login Form */}
@@ -112,6 +112,7 @@ const handleGoogleLogin = async () => {
                 scale={[0.15, 0.15, 0.15]} // Adjust the scale here to make the model larger
                 castShadow
                 receiveShadow
+                animation={animations[0]}
               />
               <mesh
                 position={[0, -3.5, 0]}
