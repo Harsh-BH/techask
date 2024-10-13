@@ -101,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setSelectedGodown  }) => {
   );
 
   return (
-    <div className={`fixed top-0 left-0 h-[90vh] text-white ${isOpen ? 'w-[30%]' : 'w-16'} bg-gray-900 shadow-lg transition-all duration-300 ease-in-out z-50 rounded-2xl overflow-hidden`}>
+    <div className={`fixed top-0 left-0 h-[90vh] text-white ${isOpen ? 'w-[40vh]' : 'w-16'} bg-gray-900 shadow-lg transition-all duration-300 ease-in-out z-50 rounded-2xl overflow-hidden`}>
       {/* Sidebar Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}

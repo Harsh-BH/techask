@@ -67,7 +67,7 @@ export default function IndexPage() {
       <div className="flex h-screen overflow-hidden">
         {/* Mobile Sidebar Toggle Button */}
         <button
-          className="md:hidden text-white bg-blue-500 rounded m-3.5 p-2"
+          className="md:hidden text-white  rounded ml-2"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {/* Add an icon or text to make the button visible */}
