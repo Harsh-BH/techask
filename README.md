@@ -17,7 +17,8 @@ cd backend
 pip install fastapi uvicorn pymongo python-dotenv
 uvicorn app:app --host 127.0.0.1 --port 8000 --reload
 
-
+video link:
+https://drive.google.com/file/d/1TwUMBuNhrdn9RSm6wViVtdv1pK_7-r7T/view?usp=sharing
 
 
 
