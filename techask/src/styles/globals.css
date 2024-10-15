@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.input {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+  }
+  
+  button {
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    background-color: #f0f0f0;
+  }
+  
+  .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+  }
+  
+  .shadow-lg {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  

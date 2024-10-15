@@ -13,8 +13,7 @@ const TV = (props) => {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF('/technical_difficulties.glb');
   const { actions, names } = useAnimations(animations, group);
-  
-  console.log(names)
+
 
 
   useEffect(() => {
