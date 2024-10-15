@@ -34,6 +34,10 @@ Uvicorn for ASGI server
 
 
 
+Important: Use mobile data (JIO) ,as on compus wifi mongodb database wil not connect
+
+
+
 ### 1. Clone the Repository
 
 ```bash
