@@ -63,11 +63,8 @@ function Login() {
     }
   };
 
-  const animations = {
-    initial: { opacity: 0, y: 50 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 },
-  };
+  const animations = ["Animation"];
+  
 
   return (
     <div
@@ -105,6 +102,7 @@ function Login() {
                 position={[0, -0.65, 1]}
                 rotation={[0, -1.8, 0]}
                 scale={[0.15, 0.15, 0.15]}
+                animation={animations[0]}
               />
             </Suspense>
           </Canvas>
