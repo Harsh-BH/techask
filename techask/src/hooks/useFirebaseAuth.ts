@@ -2,53 +2,60 @@ import { useState, useEffect } from "react";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,  // Import this function correctly
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
-  User as FirebaseUser, // Import User type from Firebase
+  User as FirebaseUser, // Optional: Import Firebase User type for TypeScript
 } from "firebase/auth";
-import { auth } from "../../firebase"; // Ensure this path is correct based on your project structure
+import { auth } from "../../firebase"; // Make sure the path is correct
 
-// Define the type for the user state
+// Define the user state type (optional for TypeScript)
 interface User {
   uid: string;
-  email: string | null; // Email can be null if the user is signed out
-  // Add any other user properties you want to track
+  email: string | null;
 }
 
+// Custom Firebase authentication hook
 export const useFirebaseAuth = () => {
-  const [user, setUser] = useState<User | null>(null); // User state can be User type or null
-  const [loading, setLoading] = useState<boolean>(true); // loading state
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-        // If a user is signed in
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-        });
+        setUser({ uid: firebaseUser.uid, email: firebaseUser.email });
       } else {
-        // If no user is signed in
         setUser(null);
       }
-      setLoading(false); // Set loading to false after user state is determined
+      setLoading(false);
     });
-    return () => unsubscribe(); // Cleanup subscription on unmount
+
+    // Cleanup subscription on component unmount
+    return () => unsubscribe();
   }, []);
 
   const login = async (email: string, password: string): Promise<void> => {
     await signInWithEmailAndPassword(auth, email, password);
   };
 
+  const signUp = async (email: string, password: string): Promise<void> => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("User signed up:", userCredential.user);
+    } catch (error) {
+      console.error("Sign up error:", error);
+      throw error; // Rethrow error for handling in component
+    }
+  };
+
   const loginWithGoogle = async (): Promise<void> => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // Handle post-login actions, like redirecting the user
     } catch (error) {
       console.error("Google sign-in error:", error);
-      throw error; // Let the component handle the error
+      throw error;
     }
   };
 
@@ -56,5 +63,5 @@ export const useFirebaseAuth = () => {
     await signOut(auth);
   };
 
-  return { user, loading, login, logout, loginWithGoogle };
+  return { user, loading, login, signUp, logout, loginWithGoogle };
 };
