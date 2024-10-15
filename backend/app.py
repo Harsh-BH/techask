@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from typing import List, Dict
 
 # Replace this with your MongoDB Atlas URI
-client = MongoClient('mongodb://tanharshb20:<db_password>@techask.cqvb4.mongodb.net/?retryWrites=true&w=majority&appName=techask')
+client = MongoClient('mongodb+srv://me:harsh@techask.cqvb4.mongodb.net/?retryWrites=true&w=majority&appName=techask')
 
 # Select your database
 db = client['warehouse_db']
