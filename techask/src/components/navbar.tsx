@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import {
@@ -6,27 +7,28 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle,
+  NavbarMenu, // Added for mobile menu
+  NavbarMenuItem, // Added for mobile menu items
 } from "@nextui-org/navbar";
 import { link as linkStyles } from "@nextui-org/theme";
 import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon } from "@/components/icons"; // Keep this as it is used
-import { Logo } from "@/components/icons"; // Keep this as it is used
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { useFirebaseAuth } from "@/hooks/useFirebaseAuth"; // Custom hook for auth
+import { GithubIcon } from "@/components/icons";
+import { Logo } from "@/components/icons";
+import { useNavigate } from "react-router-dom";
+import { useFirebaseAuth } from "@/hooks/useFirebaseAuth";
 
-// Define the props type if needed; for now, it can be empty
 interface NavbarProps {}
 
 export const Navbar: React.FC<NavbarProps> = () => {
-  const { user, logout } = useFirebaseAuth(); // Hook for user and logout function
-  const navigate = useNavigate(); // Hook for navigating between routes
+  const { user, logout } = useFirebaseAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Call the logout function from the auth hook
-    navigate("/login"); // Redirect to the login page after logout
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -39,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             href="/"
           >
             <Logo />
-            <p className="font-bold text-inherit">SANT</p>
+            <p className="font-bold text-inherit">GOLDFORKGP</p>
           </Link>
         </NavbarBrand>
         <div className="hidden lg:flex gap-4 justify-start ml-2">
@@ -60,7 +62,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
         </div>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
         <NavbarItem className="hidden sm:flex gap-2">
           <Link isExternal href={siteConfig.links.github} title="GitHub">
             <GithubIcon className="text-default-500" />
@@ -85,6 +90,36 @@ export const Navbar: React.FC<NavbarProps> = () => {
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
+
+      {/* Mobile Menu */}
+      <NavbarMenu>
+        {siteConfig.navItems.map((item) => (
+          <NavbarMenuItem key={item.href}>
+            <Link
+              color="foreground"
+              href={item.href}
+              size="lg"
+              className="w-full"
+            >
+              {item.label}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+
+        {/* Show logout button if user is logged in */}
+        {user && (
+          <NavbarMenuItem>
+            <Button
+              color="default"
+              onPress={handleLogout}
+              className="w-full"
+              variant="light"
+            >
+              Logout
+            </Button>
+          </NavbarMenuItem>
+        )}
+      </NavbarMenu>
     </NextUINavbar>
   );
 };

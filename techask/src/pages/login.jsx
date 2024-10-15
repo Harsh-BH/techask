@@ -88,7 +88,7 @@ function Login() {
         className="absolute top-10 flex gap-[30px] items-center"
         {...animations}
       >
-        <div className="text-5xl font-bold">SANT</div>
+        <div className="text-5xl font-bold">GOLDFORKGP</div>
       </motion.div>
 
       <div className="flex justify-center items-center h-[100vh] mt-20 w-full">
