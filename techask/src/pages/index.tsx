@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Navbar } from "@/components/navbar";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { motion, AnimatePresence } from "framer-motion";
@@ -85,16 +85,13 @@ export default function IndexPage() {
           className={`fixed inset-y-0 left-0 w-64 z-50 md:relative transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform md:translate-x-0`}
-          
-          animate={{ x: isSidebarOpen ? 0 : -300 }}
-          transition={{ type: "spring", stiffness: 100 }}
         >
           <Sidebar setSelectedGodown={fetchGodownDetails} />
         </div>
 
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden scrollbar-hide">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
           {/* Left side: List of items with animation */}
-          <div className="w-full md:w-2/5 h-1/2 md:h-full overflow-y-auto p-4 scrollbar-hide">
+          <div className="w-full md:w-2/5 h-1/2 md:h-full overflow-y-auto p-4">
             <div className="mb-4 text-center">
               <label className="font-semibold mr-2">Search Items:</label>
               <input
@@ -104,6 +101,22 @@ export default function IndexPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+            </div>
+
+            <div className="mb-4 text-center">
+              <label className="font-semibold mr-2">Filter by Category:</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="border p-2 rounded-lg"
+              >
+                <option value="">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <AnimatePresence>
