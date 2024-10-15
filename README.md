@@ -1,5 +1,39 @@
 ## Steps to Set Up the Project
 
+
+
+TechAsk
+TechAsk is a web application that provides a platform for users to explore and manage godowns (warehouses) and their associated items. The application features a responsive design, user authentication, interactive 3D elements using Three.js, and a backend powered by FastAPI and MongoDB.
+
+Features
+Firebase Authentication: Secure user authentication using Firebase Auth.
+Responsive Design: Mobile-first design that adapts to various screen sizes.
+Interactive Sidebar: A dynamic sidebar with animations and smooth transitions.
+Item Management: View detailed information about items within godowns.
+Search and Filter: Search items by name, category, status, or brand.
+Three.js Integration: Interactive 3D elements for enhanced user experience.
+Backend with FastAPI: A robust backend server built with FastAPI.
+MongoDB Integration: Data storage and retrieval using MongoDB.
+Framer Motion Animations: Smooth animations for UI components.
+
+
+Technologies Used
+
+Frontend:
+React.js with TypeScript
+Tailwind CSS for styling
+Framer Motion for animations
+Three.js for 3D graphics
+Firebase Auth for authentication
+
+Backend:
+FastAPI for building APIs
+MongoDB for database
+
+Uvicorn for ASGI server
+
+
+
 ### 1. Clone the Repository
 
 ```bash
